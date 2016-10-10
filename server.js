@@ -15,3 +15,28 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 
 var configDB = require('./config/database.js');
+
+// configuration =================
+mongoose.connect(configDB.url); // connect to the database
+
+// require('./config/passport')(passport); // pass passport for configuration
+
+// set up express application
+app.use(morgan('dev')); // this will log every request to the console
+app.use(cookieParser()); // reads cookies which are needed for authentication
+app.use(bodyParser()); // get information from html forms
+
+app.set('view engine', 'ejs'); // set up ejs for templating
+
+// these are required for passport
+app.use(session({ secret: 'theresalwaysasolution'})); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+
+// routes ======================
+require('./app/routes.js')(app, passport); // load the routes and then pass in the app and fully configured passport
+
+// launch the server
+app.listen(port);
+console.log('Server running on port: ' + port);
