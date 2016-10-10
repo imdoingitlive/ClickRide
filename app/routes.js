@@ -47,3 +47,13 @@ module.exports = function(app, passport) {
     res.redirect('/');
   });
 };
+
+// route middleware to make sure a user is actually logged in
+function isLoggedIn(req, res, next){
+  // if a user is authenticated in the session then carry on
+  if (req.isAuthenticated()){
+    return next();
+  } else {
+    res.redirect('/');
+  }
+}
