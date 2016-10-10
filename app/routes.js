@@ -27,9 +27,23 @@ module.exports = function(app, passport) {
 
   // process the form
   // app.post('/signup', do all our passport stuff here);
+  // ==================================================================
 
   // ==================================================================
   // Profile Page
-  // 
+  // this section will need to be protected so you have to login to view
+  // using route middleware to verify a user is logged in usgin the isLoggedIn function
+  app.get('/profile', isLoggedIn, function(req, res){
+    res.render('profile.ejs', {
+      user : req.user // this gets the user out of session and passed to template
+    });
+  });
+  // ==================================================================
 
+  // ==================================================================
+  // Logout
+  app.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/');
+  });
 };
