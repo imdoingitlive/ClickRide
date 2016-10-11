@@ -66,4 +66,41 @@ module.exports = function(passport){
       });
     });
   }));
-}
+
+  // ==================================
+  // local login
+  // ==================================
+  // again using named strategies since there is one for signup and login
+  // would be called local if there was no name
+
+  passport.use('local-login', new LocalStrategy({
+
+    // by default local strategy uses username but this will be replaced with email
+    usernameField : 'email',
+    passwordField : 'password',
+    passReqToCallback : true // allows to pass the entire req to the callback
+  },
+  function(req, email, password, done){ // callback with email and pass from the form
+
+    // find a user whose email is the same as the form
+    // we are checking to see if the user trying to login exists
+    User.findOne({ 'local.email' : email }, function(err, user){
+      if (err){
+        return done(err);
+      }
+
+      // if no user is found, return this message
+      if (!user){
+        return done(null, false, req.flash('loginMessage', 'No user found.'));
+      }
+
+      // if the user is found but the pass is wrong
+      if (!user.validPassword(password)){
+        return done(null, false, req.flash('loginMessage', 'Incorrect password.'));
+      }
+
+      // no err return successful user
+      return done(null, user);  
+    });  
+  }));
+};
