@@ -6,7 +6,8 @@ module.exports = function(app, passport) {
   });
 
   // ==================================================================
-  // Login Page 
+  // Login Page
+  // ========== 
   // show the login form
   app.get('/login', function(req, res){
     // render the page and pass in any flash data if it exists
@@ -23,6 +24,7 @@ module.exports = function(app, passport) {
 
   // ==================================================================
   // Signup Page
+  // ===========
   // show signup form
   app.get('/signup', function(req, res){
     // render the page and pass in any flash data if it exists
@@ -39,6 +41,7 @@ module.exports = function(app, passport) {
 
   // ==================================================================
   // Profile Page
+  // ============
   // this section will need to be protected so you have to login to view
   // using route middleware to verify a user is logged in usgin the isLoggedIn function
   app.get('/profile', isLoggedIn, function(req, res){
@@ -75,6 +78,19 @@ module.exports = function(app, passport) {
       failureRedirect : '/'
     }));
   // ==================================================================
+
+  // ==================================================================
+  // Google routes
+  // =============
+  // route for google auth and login
+  app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+
+  // the callback after google has authenticated the user
+  app.get('/auth/google/callback', 
+    passport.authenticate('google', {
+      successRedirect : '/profile',
+      failureRedirect : '/'
+    }));
 
   // ==================================================================
   // Logout
