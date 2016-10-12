@@ -21,7 +21,6 @@ module.exports = function(app, passport) {
     failureFlash : true // allow flash messages
   }));
   // ==================================================================
-
   // ==================================================================
   // Signup Page
   // ===========
@@ -38,7 +37,6 @@ module.exports = function(app, passport) {
     failureFlash : true // allow flash messages
   }));
   // ==================================================================
-
   // ==================================================================
   // Profile Page
   // ============
@@ -50,7 +48,14 @@ module.exports = function(app, passport) {
     });
   });
   // ==================================================================
-
+  // ==================================================================
+  // Logout
+  // ======
+  app.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/');
+  });
+  // ==================================================================
   // ==================================================================
   // Facebook routes
   // ===============
@@ -64,7 +69,6 @@ module.exports = function(app, passport) {
       failureRedirect : '/'
     }));
   // ==================================================================
-
   // ==================================================================
   // Twitter routes
   // ==============
@@ -78,7 +82,6 @@ module.exports = function(app, passport) {
       failureRedirect : '/'
     }));
   // ==================================================================
-
   // ==================================================================
   // Google routes
   // =============
@@ -91,13 +94,37 @@ module.exports = function(app, passport) {
       successRedirect : '/profile',
       failureRedirect : '/'
     }));
-
   // ==================================================================
-  // Logout
-  app.get('/logout', function(req, res){
-    req.logout();
-    res.redirect('/');
+  // ==================================================================
+  // Authorize (already logged in / connecting other social account)
+  // =========
+  
+  // ==================================================================
+  // Local
+  // =====
+  app.get('/connect/local', function(req, res){
+    res.render('connect-local.ejs', { message : req.flash('loginMessage') });
   });
+  app.post('/connect/local', passport.authenticate('local-signup', {
+    successRedirect : '/profile',
+    failureRedirect : '/connect/local', // redirect to signup page if there is an error
+    failureFlash : true
+  }));
+  // ==================================================================
+  // Facebook
+  // ========
+  app.get('/connect/facebook', passport.authorize('facebook', { scope : 'email' }));
+
+  // handle the callback after facebook has authorized the user
+  app.get('/connect/facebook/callback', 
+    passport.authorize('facebook', {
+      successRedirect : 'profile',
+      failureRedirect : '/'
+    }));
+  // ==================================================================
+  // Twitter
+  // =======
+  
 };
 
 // route middleware to make sure a user is actually logged in
