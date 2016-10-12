@@ -1,6 +1,7 @@
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 var User = require('../app/models/user');
 
@@ -202,6 +203,52 @@ module.exports = function(passport){
               throw err;
             }
 
+            return done(null, newUser);
+          });
+        }
+      });
+    });
+  }));
+
+  // =========================
+  // Google
+  // =========================
+  passport.use(new GoogleStrategy({
+
+    clientID : configAuth.googleAuth.clientID,
+    clientSecret : configAuth.googleAuth.clientSecret,
+    callbackURL : configAuth.googleAuth.clientSecret
+
+  },
+  function(token, refreshToken, profile, done){
+    // code is asynchronous
+    // User.findOne will not run until all info is back from google
+    process.nextTick(function(){
+
+      // look for the user in the db
+      User.findOne({ 'google.id' : profile.id }, function(err, user){
+        if (err) {
+          return done(err);
+        }
+
+        if (user) {
+          // if a user is found return the user
+          return done(null, user);
+        } else {
+          // if no user in db then create a new one
+          var newUser = new User();
+
+          // set all information to google info
+          newUser.google.id = profile.id;
+          newUser.google.token = token;
+          newUser.google.name = profile.displayName;
+          newUser.google.email = profile.emails[0].value; // use the first email
+
+          // save the user
+          newUser.save(function(err){
+            if (err){
+              throw err;
+            }
             return done(null, newUser);
           });
         }
