@@ -48,8 +48,9 @@ module.exports = function(app, passport) {
   });
   // ==================================================================
 
+  // ==================================================================
   // Facebook routes
-  // =================
+  // ===============
   // route for facebook authentication and login
   app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
 
@@ -59,6 +60,21 @@ module.exports = function(app, passport) {
       successRedirect : '/profile',
       failureRedirect : '/'
     }));
+  // ==================================================================
+
+  // ==================================================================
+  // Twitter routes
+  // ==============
+  // route for twitter authentication and login
+  app.get('/auth/twitter', passport.authenticate('twitter'));
+
+  // handle the callback after twitter has authenticated the user
+  app.get('/auth/twitter/callback',
+    passport.authenticate('twitter', {
+      successRedirect : '/profile',
+      failureRedirect : '/'
+    }));
+  // ==================================================================
 
   // ==================================================================
   // Logout
