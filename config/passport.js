@@ -1,5 +1,6 @@
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
+var TwitterStrategy = require('passport-twitter').Strategy;
 
 var User = require('../app/models/user');
 
@@ -153,6 +154,54 @@ module.exports = function(passport){
             }
 
             // if successful return the new user
+            return done(null, newUser);
+          });
+        }
+      });
+    });
+  }));
+
+  // ============================
+  // Twitter
+  // ============================
+  passport.use(new TwitterStrategy({
+
+    consumerKey : configAuth.twitterAuth.consumerKey,
+    consumerSecret : configAuth.twitterAuth.consumerSecret,
+    callbackURL : configAuth.twitterAuth.callbackURL
+  },
+
+  function(token, tokenSecret, profile, done){
+    // make the code asynchronous
+    // User.findOne will not run until all the data is back from Twitter
+    process.nextTick(function(){
+
+      User.findOne({ 'twitter.id' : profile.id }, function(err, user){
+        // if any err stop and return err
+        // ie err connecting to db
+        if (err) {
+          return done(err);
+        }
+
+        // if user is found then log them in
+        if (user) {
+          return done(null, user); // user is found, return that user
+        } else {
+          // if there is no user then create one
+          var newUser = new User();
+
+          // set all of the user data that we need
+          newUser.twitter.id = profile.id;
+          newUser.twitter.token = token;
+          newUser.twitter.username = profile.username;
+          newUser.twitter.displayName = profile.displayName;
+
+          // save the user in the db
+          newUser.save(function(err){
+            if (err) {
+              throw err;
+            }
+
             return done(null, newUser);
           });
         }
