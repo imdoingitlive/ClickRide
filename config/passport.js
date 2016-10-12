@@ -217,7 +217,7 @@ module.exports = function(passport){
 
     clientID : configAuth.googleAuth.clientID,
     clientSecret : configAuth.googleAuth.clientSecret,
-    callbackURL : configAuth.googleAuth.clientSecret
+    callbackURL : configAuth.googleAuth.callbackURL
 
   },
   function(token, refreshToken, profile, done){
