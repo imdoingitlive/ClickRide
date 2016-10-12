@@ -4,7 +4,7 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 var User = require('../app/models/user');
 
 // loade the auth variables
-var configAuth = requrie('./auth');
+var configAuth = require('./auth');
 
 // expose this function to the app
 module.exports = function(passport){
@@ -116,7 +116,8 @@ module.exports = function(passport){
     // pull in our app id and secret from our auth.js file
     clientID : configAuth.facebookAuth.clientID,
     clientSecret : configAuth.facebookAuth.clientSecret,
-    callbackURL : configAuth.facebookAuth.callbackURL
+    callbackURL : configAuth.facebookAuth.callbackURL,
+    profileFields : ["emails", "displayName"]
   },
 
   // facebook will send back the token and profile
@@ -142,7 +143,7 @@ module.exports = function(passport){
           // set all of the facebook information in the user model
           newUser.facebook.id = profile.id; // set the users facebook id
           newUser.facebook.token = token; // save the token that facebook provides to the user
-          newUser.facebook.name = profile.name.givenName + ' ' + profile.name.familyName; // look at the passport user file
+          newUser.facebook.name = profile.displayName; // look at the passport user file
           newUser.facebook.email = profile.emails[0].value; // facebook might return multiple emails so this grabs the first one
 
           // save the user to the database
