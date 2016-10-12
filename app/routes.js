@@ -124,6 +124,17 @@ module.exports = function(app, passport) {
   // ==================================================================
   // Twitter
   // =======
+  app.get('/connect/twitter', passport.authorize('twitter', { scope : 'email' }));
+
+  // handle the callback after twitter has authorized the user
+  app.get('/connect/twitter/callback', 
+    passport.authorize('twitter', {
+      successRedirect : '/profile',
+      failureRedirect : '/'
+    }));
+  // ==================================================================
+  // Google
+  // ======
   
 };
 
