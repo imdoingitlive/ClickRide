@@ -135,7 +135,14 @@ module.exports = function(app, passport) {
   // ==================================================================
   // Google
   // ======
-  
+  app.get('/connect/google', passport.authorize('google', { scope : ['profile', 'email'] }));
+
+  // handle the callback after google has authorized the user
+  app.get('/connect/google/callback', 
+    passport.authorize('google', {
+      successRedirect : '/profile',
+      failureRedirect : '/'
+    }));
 };
 
 // route middleware to make sure a user is actually logged in
