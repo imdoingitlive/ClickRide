@@ -171,9 +171,18 @@ module.exports = function(app, passport) {
     });
 
     // twitter
-    app.get('/unlink/twitter', function(req, res) {
+    app.get('/unlink/twitter', function(req, res){
       var user = req.user;
       user.twitter.token = undefined;
+      user.save(function(err){
+        res.redirect('/profile');
+      });
+    });
+
+    // google
+    app.get('/unlink/google', function(req, res){
+      var user = req.user;
+      user.google.token = undefined;
       user.save(function(err){
         res.redirect('/profile');
       });
