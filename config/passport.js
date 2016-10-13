@@ -142,6 +142,24 @@ module.exports = function(passport){
 
           // if the user is found log them in
           if (user) {
+            
+            // this block will relink after unlinking
+            // if there is a user ID already but no token (user was linked at one point but then removed)
+            // just add token and profile information
+            if (!user.facebook.token){
+              user.facebook.token = token;
+              user.facebook.name = profile.displayName;
+              user.facebook.email = profile.emails[0].value;
+
+              user.save(function(err){
+                if (err){
+                  throw err;
+                }
+                return done(null, user);
+              });
+            }
+            // ============== end of relink block ==================
+            // =====================================================
             return done(null, user); // user found, return that user
           } else {
             // if there isnt a user found with the facebook id then create them
