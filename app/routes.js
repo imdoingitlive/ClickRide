@@ -160,6 +160,24 @@ module.exports = function(app, passport) {
         res.redirect('/profile');
       });
     });
+
+    // facebook
+    app.get('/unlink/facebook', function(req, res){
+      var user = req.user;
+      user.facebook.token = undefined;
+      user.save(function(err){
+        res.redirect('/profile');
+      });
+    });
+
+    // twitter
+    app.get('/unlink/twitter', function(req, res) {
+      var user = req.user;
+      user.twitter.token = undefined;
+      user.save(function(err){
+        res.redirect('/profile');
+      });
+    });
 };
 
 // route middleware to make sure a user is actually logged in
