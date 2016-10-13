@@ -231,6 +231,25 @@ module.exports = function(passport){
 
           // if user is found then log them in
           if (user) {
+
+            // this block will relink after unlinking
+            // if there is a user ID already but no token (user was linked at one point but then removed)
+            // just add token and profile information
+            if (!user.twitter.token){
+              user.twitter.token = token;
+              user.twitter.username = profile.username;
+              user.twitter.displayName = profile.displayName;
+
+              user.save(function(err){
+                if (err){
+                  throw err;
+                }
+                return done(null, user);
+              });
+            }
+            // ============== end of relink block ==================
+            // =====================================================
+
             return done(null, user); // user is found, return that user
           } else {
             // if there is no user then create one
