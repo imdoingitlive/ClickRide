@@ -237,7 +237,7 @@ module.exports = function(passport){
             // just add token and profile information
             if (!user.twitter.token){
               user.twitter.token = token;
-              user.twitter.username = profile.username;
+              user.twitter.userName = profile.username;
               user.twitter.displayName = profile.displayName;
 
               user.save(function(err){
@@ -317,6 +317,24 @@ module.exports = function(passport){
           }
 
           if (user) {
+            // this block will relink after unlinking
+            // if there is a user ID already but no token (user was linked at one point but then removed)
+            // just add token and profile information
+            if (!user.google.token){
+              user.google.token = token;
+              user.google.name = profile.displayName;
+              user.google.email = profile.emails[0].value;
+
+              user.save(function(err){
+                if (err){
+                  throw err;
+                }
+                return done(null, user);
+              });
+            }
+            // ============== end of relink block ==================
+            // =====================================================
+
             // if a user is found return the user
             return done(null, user);
           } else {
