@@ -110,11 +110,16 @@ module.exports = function(app, passport) {
   app.get('/auth/uber', passport.authenticate('uber'));
 
   // callback after uber has authenticated user
+    // app.get('/auth/uber/callback', 
+    //   passport.authenticate('uber', {
+    //     successRedirect : '/uberup',
+    //     failureRedirect : '/'
+    //   }));
   app.get('/auth/uber/callback', 
-    passport.authenticate('uber', {
-      successRedirect : '/uberup',
-      failureRedirect : '/'
-    }));
+    passport.authenticate('uber', { failureRedirect : '/' }),
+    function(req, res){
+      res.redirect('/uberup');
+    });
 
   // ==================================================================
   // ==================================================================
