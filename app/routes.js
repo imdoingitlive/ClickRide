@@ -52,7 +52,7 @@ module.exports = function(app, passport) {
   // Uber Setup Page
   // ===============
   app.get('/uberup', isLoggedIn, function(req, res){
-    res.render('uberup.jade', {
+    res.render('uberup.ejs', {
       user : req.user
     });
   });
