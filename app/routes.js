@@ -49,6 +49,15 @@ module.exports = function(app, passport) {
   });
   // ==================================================================
   // ==================================================================
+  // Uber Setup Page
+  // ===============
+  app.get('/uberup', isLoggedIn, function(req, res){
+    res.render('uberup.jade', {
+      user : req.user
+    });
+  });
+  // ==================================================================
+  // ==================================================================
   // Logout
   // ======
   app.get('/logout', function(req, res){
@@ -94,6 +103,19 @@ module.exports = function(app, passport) {
       successRedirect : '/profile',
       failureRedirect : '/'
     }));
+  // ==================================================================
+  // ==================================================================
+  // Uber routes 
+  // ===========
+  app.get('/auth/uber', passport.authenticate('uber'));
+
+  // callback after uber has authenticated user
+  app.get('/auth/uber/callback', 
+    passport.authenticate('uber', {
+      successRedirect : '/uberup',
+      failureRedirect : '/'
+    }));
+
   // ==================================================================
   // ==================================================================
   // Authorize / Linking (already logged in / connecting other social account)
