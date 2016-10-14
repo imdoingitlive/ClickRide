@@ -25,6 +25,12 @@ var userSchema = mongoose.Schema({
     token : String,
     email : String,
     name : String
+  },
+  uber : {
+    id : String,
+    token : String,
+    email : String,
+    name : String
   }
 });
 
