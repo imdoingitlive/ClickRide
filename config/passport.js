@@ -2,6 +2,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var UberStrategy = require('passport-uber').Strategy;
 
 var User = require('../app/models/user');
 
@@ -365,6 +366,73 @@ module.exports = function(passport){
         user.google.token = token;
         user.google.name = profile.displayName;
         user.google.email = profile.emails[0].value;
+
+        // save the user
+        user.save(function(err){
+          if (err) {
+            throw err;
+          }
+
+          return done(null, user);
+        }); 
+      }
+    });
+  }));
+
+  // ===========================
+  // Uber
+  // ===========================
+  passport.use(new UberStrategy({
+
+    clientID : configAuth.uberAuth.clientID,
+    clientSecret : configAuth.uberAuth.clientSecret,
+    callbackURL : configAuth.uberAuth.callbackURL,
+    passReqToCallback : true
+
+  },
+  function(req, token, refreshToken, profile, done){
+    // code is asynchronous
+    // User.findOne will not run until all info is back from uber
+    process.nextTick(function(){
+
+      if (!req.user){
+        // look for the user in the db
+        User.findOne({ 'uber.id' : profile.uuid }, function(err, user){
+          if (err) {
+            return done(err);
+          }
+
+          if (user) {
+            // if a user is found return the user
+            return done(null, user);
+          } else {
+            // if no user in db then create a new one
+            var newUser = new User();
+
+            // set all information to uber info
+            newUser.uber.id = profile.uuid;
+            newUser.uber.token = token;
+            newUser.uber.name = profile.first_name + ' ' + profile.last_name;
+            newUser.uber.email = profile.email; // use the first email
+
+            // save the user
+            newUser.save(function(err){
+              if (err){
+                throw err;
+              }
+              return done(null, newUser);
+            });
+          }
+        });
+      } else {
+        // user already exists and is logged in, we have to link accounts
+        var user = req.user; // pull the user out of the session
+
+        // update the current users uber credentials
+        user.uber.id = profile.uuid;
+        user.uber.token = token;
+        user.uber.name = profile.first_name + ' ' + profile.last_name;
+        user.uber.email = profile.email;
 
         // save the user
         user.save(function(err){
