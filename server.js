@@ -17,7 +17,7 @@ var session = require('express-session');
 var configDB = require('./config/database.js');
 
 // configuration =================
-mongoose.connect(process.env.MONGOLAB_URI, function(err){
+mongoose.connect(process.env.MONGODB_URI, function(err){
 	if (err) {
 		console.log("\n******************************************\n");
 		console.log(err);
