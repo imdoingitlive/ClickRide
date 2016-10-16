@@ -16,6 +16,12 @@ module.exports = {
     'clientID' : 'clientID-here',
     'clientSecret' : 'client-secret',
     'callbackURL' : 'http://localhost:3000/auth/google/callback'
+  },
+
+  'uberAuth' : {
+    'clientID' : '',
+    'clientSecret' : '',
+    'callbackURL' : ''
   }
     
 };
