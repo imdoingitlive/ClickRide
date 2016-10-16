@@ -21,7 +21,7 @@ module.exports = {
   'uberAuth' : {
     'clientID' : '',
     'clientSecret' : '',
-    'callbackURL' : ''
+    'callbackURL' : 'http://localhost:3000/auth/uber/callback'
   }
     
 };
