@@ -7,7 +7,9 @@ var UberStrategy = require('passport-uber').Strategy;
 var User = require('../app/models/user');
 
 // loade the auth variables
-var configAuth = require('./auth');
+// if locally storing IDs and keys use below
+// var configAuth = require('./auth');
+var configAuth = require('./auth_template');
 
 // expose this function to the app
 module.exports = function(passport){
@@ -117,8 +119,8 @@ module.exports = function(passport){
   passport.use(new FacebookStrategy({
 
     // pull in our app id and secret from our auth.js file
-    clientID : configAuth.facebookAuth.clientID,
-    clientSecret : configAuth.facebookAuth.clientSecret,
+    clientID : process.env.configAuth_facebookAuth_clientID,
+    clientSecret : process.env.configAuth_facebookAuth_clientSecret,
     callbackURL : configAuth.facebookAuth.callbackURL,
     profileFields : ["emails", "displayName"],
     passReqToCallback : true // allows to pass in the req from the route (check to see if the user is logged in or not)
@@ -210,8 +212,8 @@ module.exports = function(passport){
   // ============================
   passport.use(new TwitterStrategy({
 
-    consumerKey : configAuth.twitterAuth.consumerKey,
-    consumerSecret : configAuth.twitterAuth.consumerSecret,
+    consumerKey : process.env.configAuth_twitterAuth_consumerKey,
+    consumerSecret : process.env.configAuth_twitterAuth_consumerSecret,
     callbackURL : configAuth.twitterAuth.callbackURL,
     passReqToCallback : true
   },
@@ -299,8 +301,8 @@ module.exports = function(passport){
   // =========================
   passport.use(new GoogleStrategy({
 
-    clientID : configAuth.googleAuth.clientID,
-    clientSecret : configAuth.googleAuth.clientSecret,
+    clientID : process.env.configAuth_googleAuth_clientID,
+    clientSecret : process.env.configAuth_googleAuth_clientSecret,
     callbackURL : configAuth.googleAuth.callbackURL,
     passReqToCallback : true
 
@@ -384,8 +386,8 @@ module.exports = function(passport){
   // ===========================
   passport.use(new UberStrategy({
 
-    clientID : configAuth.uberAuth.clientID,
-    clientSecret : configAuth.uberAuth.clientSecret,
+    clientID : process.env.configAuth_uberAuth_clientID,
+    clientSecret : process.env.configAuth_uberAuth_clientSecret,
     callbackURL : configAuth.uberAuth.callbackURL,
     passReqToCallback : true
 
