@@ -17,7 +17,18 @@ var session = require('express-session');
 var configDB = require('./config/database.js');
 
 // configuration =================
-mongoose.connect(configDB.url || process.env.MONGOLAB_URI); // connect to the database
+mongoose.connect(process.env.MONGOLAB_URI, function(err){
+	if (err) {
+		console.log("\n******************************************\n");
+		console.log(err);
+		console.log("\n******************************************\n");
+	} else {
+		console.log("\n******************************************\n");
+		console.log("MongoDB Connected!!!");
+		console.log("\n******************************************\n");
+	}
+}); // connect to the database
+// mongoose.connect(configDB.url); // use this for local DB setup
 
 console.log("====================================================");
 console.log(process.env);
