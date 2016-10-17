@@ -15,7 +15,7 @@ function MainController($scope, $location, $http) {
       method: 'GET',
       url : 'https://api.uber.com/v1/products',
       headers: {
-        Authorization: 'Bearer ' + 'b6gkeE8wvA8Al8rmDtiSfaMbj2IDKsiC39hPtYaD'
+        Authorization: 'Bearer ' + $scope.TOKEN
       },
       params: {
         latitude: $scope.start_latitude,
