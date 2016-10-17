@@ -13,8 +13,8 @@ function MainController($scope, $location, $http) {
 
     $http.get('/products', {
       params: {
-        lat: $scope.start_latitude,
-        lng: $scope.start_longitude
+        // lat: $scope.start_latitude,
+        // lng: $scope.start_longitude
       },
       headers: {
         Authorization: 'Bearer ' + $scope.TOKEN
@@ -36,7 +36,7 @@ function MainController($scope, $location, $http) {
     L.mapbox.accessToken = 'pk.eyJ1IjoiaW1kb2luZ2l0bGl2ZSIsImEiOiJjaXVkZndncHYwMGF5MnpydTV2dDduOWNsIn0.9TKWFzpnaB-rbAlBCutYBg';
 
     var mamouns = [40.497979, -74.449074];
-    var atrium = [40.749340, -73.991842];
+    var atrium = [40.535383,-74.520848];
 
     var MAP = L.mapbox
       .map('map', 'mapbox.streets')
