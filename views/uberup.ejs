@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="uber-dash">
+<html ng-app="click-ride">
 <head>
   <title>ClickRide</title>
   
@@ -63,7 +63,7 @@
         <div class="col-md-3">
           <h3>Select the product</h3>
           <b class="red" ng-show="products.length === 0">
-            <span ng-show="TOKEN">Uber is not available at the selected pickup location!</span>
+            <span ng-show="user.uber.token">Uber is not available at the selected pickup location!</span>
           </b>
           <div class="product" ng-cloak, ng-repeat="product in products", ng-click="selectProduct($index)", ng-cloak="product.products_id === selectedProduct.product_id ? 'selected' : ''">
             <div class="row">
@@ -89,7 +89,7 @@
             var https = require('https');
 
                     var CONFIG = {
-                      uber_token:      "{{ TOKEN }}",
+                      uber_token:      "{{ user.uber.token }}",
                       product_id:      "{{ selectedProduct.product_id }}",
                       start_latitude:  {{ start_latitude }},
                       start_longitude: {{ start_longitude }},

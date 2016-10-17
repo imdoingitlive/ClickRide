@@ -86,8 +86,8 @@ function MainController($scope, $location, $http) {
 }
 
 angular
-.module('uber-dash', []);
+.module('click-ride', []);
 
 angular
-.module('uber-dash')
+.module('click-ride')
 .controller('MainController', MainController);
