@@ -21,6 +21,9 @@
   </style>
 </head>
 <body ng-controller="MainController">
+  <div class="container-fluid" ng-init="TOKEN = #{JSON.stringify(token)">
+    
+  </div>
   <div class="container">
     <div class="page-header text-center">
       <h1><span class="fa fa-anchor"></span> Profile Page</h1>
@@ -63,7 +66,7 @@
         <div class="col-md-3">
           <h3>Select the product</h3>
           <b class="red" ng-show="products.length === 0">
-            <span ng-show="user.uber.token">Uber is not available at the selected pickup location!</span>
+            <span ng-show="TOKEN">Uber is not available at the selected pickup location!</span>
           </b>
           <div class="product" ng-cloak, ng-repeat="product in products", ng-click="selectProduct($index)", ng-cloak="product.products_id === selectedProduct.product_id ? 'selected' : ''">
             <div class="row">
@@ -89,7 +92,7 @@
             var https = require('https');
 
                     var CONFIG = {
-                      uber_token:      "{{ user.uber.token }}",
+                      uber_token:      "{{ TOKEN }}",
                       product_id:      "{{ selectedProduct.product_id }}",
                       start_latitude:  {{ start_latitude }},
                       start_longitude: {{ start_longitude }},

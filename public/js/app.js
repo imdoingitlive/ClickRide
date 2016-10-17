@@ -1,5 +1,5 @@
 function MainController($scope, $location, $http) {
-  
+
   $scope.products = [];
 
   $scope.selectProduct = function(index) {
@@ -7,7 +7,7 @@ function MainController($scope, $location, $http) {
   };
 
   function getProducts() {
-    if (!$scope.user.uber.token) {
+    if (!$scope.TOKEN) {
       return;
     }
 
@@ -17,7 +17,7 @@ function MainController($scope, $location, $http) {
         lng: $scope.start_longitude
       },
       headers: {
-        Authorization: 'Bearer ' + $scope.user.uber.token,
+        Authorization: 'Bearer ' + $scope.TOKEN
       }
     })
     .success(function(data) {
@@ -83,7 +83,7 @@ function MainController($scope, $location, $http) {
 
   init();
 
-  $scope.$watchGroup(['user.uber.token', 'start_latitude', 'start_longitude'], getProducts);
+  $scope.$watchGroup(['TOKEN', 'start_latitude', 'start_longitude'], getProducts);
 }
 
 angular
