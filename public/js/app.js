@@ -32,7 +32,7 @@ function MainController($scope, $location, $http) {
   };
 
   function init() {
-    L.mapbox.accessuserToken = 'pk.eyJ1IjoiaW1kb2luZ2l0bGl2ZSIsImEiOiJjaXVkZndncHYwMGF5MnpydTV2dDduOWNsIn0.9TKWFzpnaB-rbAlBCutYBg';
+    L.mapbox.accessToken = 'pk.eyJ1IjoiaW1kb2luZ2l0bGl2ZSIsImEiOiJjaXVkZndncHYwMGF5MnpydTV2dDduOWNsIn0.9TKWFzpnaB-rbAlBCutYBg';
 
     var mamouns = [40.497979, -74.449074];
     var atrium = [40.535383,-74.520848];
