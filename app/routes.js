@@ -52,7 +52,9 @@ module.exports = function(app, passport) {
   // Uber Setup Page
   // ===============
   app.get('/uberup', isLoggedIn, function(req, res){
+    console.log("*********************************************");
     console.log(req.user.uber.token);
+    console.log("*********************************************");
     res.render('uberup.ejs', {
       user : req.user
     });
