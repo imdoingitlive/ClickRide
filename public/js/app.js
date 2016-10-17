@@ -32,7 +32,7 @@ function MainController($scope, $location, $http) {
   };
 
   function init() {
-    L.mapbox.accessToken = 'pk.eyJ1IjoiZ2VvZmZyZXl0aXNzZXJhbmQiLCJhIjoiY2lmbHF0d2twMncwMXM2a3F1ODRraGdxaiJ9.wJk9as6xGHfCis8dyZQ2PA';
+    L.mapbox.accessToken = 'pk.eyJ1IjoiaW1kb2luZ2l0bGl2ZSIsImEiOiJjaXVkZndncHYwMGF5MnpydTV2dDduOWNsIn0.9TKWFzpnaB-rbAlBCutYBg';
 
     var uberHQ = [37.775718, -122.418077];
     var lyftHQ = [37.7603392,-122.4148612];
