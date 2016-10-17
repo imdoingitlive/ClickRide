@@ -1,14 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="uber-dash">
 <head>
-  <title>Node Authentication</title>
-  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+  <title>ClickRide</title>
+  
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700", rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" type="text/css" href="//api.mapbox.com/mapbox.js/v2.2.2/mapbox.css">
+  <link rel="stylesheet" type="text/css" href="/css/main.css">
+  <link rel="stylesheet" type="text/css" href="/favicon.ico">
+
+  <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+  <script src="//api.mapbox.com/mapbox.js/v2.2.2/mapbox.js"></script>
+
   <style>
     body { padding-top: 80px; word-wrap: break-word; }
   </style>
 </head>
-<body>
+<body ng-controller="MainController">
   <div class="container">
     <div class="page-header text-center">
       <h1><span class="fa fa-anchor"></span> Profile Page</h1>
@@ -32,5 +44,107 @@
       </div>
     </div>
   </div>
+
+  <!-- Angular -->
+  <div class="main-container">
+    <div class="generator">
+      <div class="row"></div>
+      <div class="row">
+        <div class="col-md-4">
+          <h3>Select your pickup & dropoff</h3>
+          <p>Drag and drop the 2 markers on the map</p>
+          <b class="green">Green Marker = Pickup</b>
+          <br>
+          <b class="red">Red Marker = Dropoff</b>
+          <div id="map">
+          <!-- Map will be here -->
+          </div>
+        </div>
+        <div class="col-md-3">
+          <h3>Select the product</h3>
+          <b class="red" ng-show="products.length === 0">
+            <span ng-show="TOKEN">Uber is not available at the selected pickup location!</span>
+          </b>
+          <div class="product" ng-cloak, ng-repeat="product in products", ng-click="selectProduct($index)", ng-cloak="product.products_id === selectedProduct.product_id ? 'selected' : ''">
+            <div class="row">
+              <div class="col-md-3">
+                <img ng-src="{{ product.image }}">
+              </div>
+              <div class="col-md-9">
+                <b>{{ product.display_name }}</b>
+                <br>
+                <span>{{ product.description }}</span>
+                <br>
+                <span>{{ product.capacity }} people</span>
+                <br>
+                <span>${{ product.price_details.minimum }} minimum</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <h3>Save your custom script</h3>
+          <b class="red">DO NOT SHARE THIS</b>
+          <pre ng-cloak>
+            var https = require('https');
+
+                    var CONFIG = {
+                      uber_token:      "{{ TOKEN }}",
+                      product_id:      "{{ selectedProduct.product_id }}",
+                      start_latitude:  {{ start_latitude }},
+                      start_longitude: {{ start_longitude }},
+                      end_latitude:    {{ end_latitude }},
+                      end_longitude:   {{ end_longitude }},
+                    };
+
+                    function callUber(event, context) {
+                      var data =  {
+                        product_id:      CONFIG.product_id,
+                        start_latitude:  CONFIG.start_latitude,
+                        start_longitude: CONFIG.start_longitude,
+                        end_latitude:    CONFIG.end_latitude,
+                        end_longitude:   CONFIG.end_longitude
+                      };
+
+                      data = JSON.stringify(data);
+
+                      var headers = {
+                        'Authorization':  'Bearer ' + CONFIG.uber_token,
+                        'Content-Type':   'application/json',
+                        'Content-Length': Buffer.byteLength(data)
+                      };
+
+                      var options = {
+                        host:    'api.uber.com',
+                        path:    '/v1/requests',
+                        method:  'POST',
+                        headers: headers
+                      };
+
+                      var req = https.request(options, function(res) {
+                        if (res.statusCode == 200) {
+                          context.succeed(event);
+                        } else if (context) {
+                          context.fail(event);
+                        }
+
+                        res.on('data', function (chunk) {
+                          console.log("" + chunk);
+                        });
+                      });
+
+                      req.write(data);
+                      req.end();
+                    }
+
+                    exports.handler = callUber;
+          </pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+
 </body>
 </html>
