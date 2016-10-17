@@ -21,7 +21,7 @@
   </style>
 </head>
 <body ng-controller="MainController">
-  <div class="container-fluid" ng-init="TOKEN = #{JSON.stringify(token)}">
+  <div class="container-fluid" ng-init="TOKEN = #{JSON.stringify('<%= user.uber.token %>')}">
     <div class="container">
       <div class="page-header text-center">
         <h1><span class="fa fa-anchor"></span> Profile Page</h1>
