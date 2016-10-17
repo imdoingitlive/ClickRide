@@ -35,6 +35,8 @@ console.log(process.env);
 
 require('./config/passport')(passport); // pass passport for configuration
 
+app.use(express.static('public'));
+
 // set up express application
 app.use(morgan('dev')); // this will log every request to the console
 app.use(cookieParser()); // reads cookies which are needed for authentication
