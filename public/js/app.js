@@ -18,8 +18,8 @@ function MainController($scope, $location, $http) {
         Authorization: 'Bearer ' + 'b6gkeE8wvA8Al8rmDtiSfaMbj2IDKsiC39hPtYaD'
       },
       params: {
-        latitiude: $scope.start_latitude,
-        longittude: $scope.start_longitude
+        latitude: $scope.start_latitude,
+        longitude: $scope.start_longitude
       }
     })
     .success(function(data) {
