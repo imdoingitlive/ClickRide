@@ -11,13 +11,15 @@ function MainController($scope, $location, $http) {
       return;
     }
 
-    $http.get('/v1/products', {
+    $http({
+      method: 'GET',
+      url : 'https://api.uber.com/v1/products',
+      headers: {
+        Authorization: 'Bearer ' + $scope.TOKEN
+      },
       params: {
         lat: $scope.start_latitude,
         lng: $scope.start_longitude
-      },
-      headers: {
-        Authorization: 'Bearer ' + $scope.TOKEN
       }
     })
     .success(function(data) {
