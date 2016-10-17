@@ -1,4 +1,6 @@
-function MainController($scope, $location, $http) {
+function MainController($scope, $location, $http, token) {
+  console.log(token);
+
   $scope.products = [];
 
   $scope.selectProduct = function(index) {
