@@ -11,10 +11,10 @@ function MainController($scope, $location, $http) {
       return;
     }
 
-    $http.get('/products', {
+    $http.get('/v1/products', {
       params: {
-        // lat: $scope.start_latitude,
-        // lng: $scope.start_longitude
+        lat: $scope.start_latitude,
+        lng: $scope.start_longitude
       },
       headers: {
         Authorization: 'Bearer ' + $scope.TOKEN
