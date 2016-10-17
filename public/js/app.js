@@ -34,15 +34,15 @@ function MainController($scope, $location, $http) {
   function init() {
     L.mapbox.accessToken = 'pk.eyJ1IjoiaW1kb2luZ2l0bGl2ZSIsImEiOiJjaXVkZndncHYwMGF5MnpydTV2dDduOWNsIn0.9TKWFzpnaB-rbAlBCutYBg';
 
-    var uberHQ = [37.775718, -122.418077];
-    var lyftHQ = [37.7603392,-122.4148612];
+    var mamouns = [40.497979, -74.449074];
+    var atrium = [40.535383,-74.520848];
 
     var MAP = L.mapbox
       .map('map', 'mapbox.streets')
-      .setView(uberHQ, 13)
+      .setView(mamouns, 13)
       .addControl(L.mapbox.geocoderControl('mapbox.places', {}));
 
-    var pickup = L.marker(lyftHQ, {
+    var pickup = L.marker(atrium, {
       icon: L.mapbox.marker.icon({
         'marker-color': '#49A86C'
       }),
@@ -51,7 +51,7 @@ function MainController($scope, $location, $http) {
       draggable: true
     }).addTo(MAP);
 
-    var dropoff = L.marker(uberHQ, {
+    var dropoff = L.marker(mamouns, {
       icon: L.mapbox.marker.icon({
         'marker-color': '#F8322F'
       }),
