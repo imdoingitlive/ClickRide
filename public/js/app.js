@@ -11,6 +11,8 @@ function MainController($scope, $location, $http) {
       return;
     }
 
+    console.log($scope.TOKEN);
+
     $http({
       method: 'GET',
       url : 'https://api.uber.com/v1/products',
