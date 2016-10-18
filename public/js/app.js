@@ -14,7 +14,7 @@ function MainController($scope, $location, $http) {
     console.log($scope.TOKEN);
 
     var myToken = "katd9YImul3yXmPez9nRvDQBxtmKfBuPjViCybcv";
-    var myToken = $scope.TOKEN;
+    // var myToken = $scope.TOKEN;
 
     $http({
       method: 'GET',
