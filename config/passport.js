@@ -404,10 +404,11 @@ module.exports = function(passport){
             return done(err);
           }
 
+          // need to set this up so it removes duplicates in the db
           if (user) {
             // if a user is found return the user
-            return done(null, user);
-          } else {
+          //   return done(null, user);
+          // } else {
             // if no user in db then create a new one
             var newUser = new User();
 
