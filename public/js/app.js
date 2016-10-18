@@ -13,14 +13,14 @@ function MainController($scope, $location, $http) {
 
     console.log($scope.TOKEN);
 
-    var myToken = "katd9YImul3yXmPez9nRvDQBxtmKfBuPjViCybcv";
-    // var myToken = $scope.TOKEN;
+    // var myToken = "";
+    var myToken = $scope.TOKEN;
 
     $http({
       method: 'GET',
       url : 'https://api.uber.com/v1/products',
       headers: {
-        'Authorization': 'Token ' + myToken
+        'Authorization': 'Bearer ' + myToken
       },
       params: {
         latitude: $scope.start_latitude,
