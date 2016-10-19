@@ -10,17 +10,12 @@ function MainController($scope, $location, $http) {
     if (!$scope.TOKEN) {
       return;
     }
-
-    console.log($scope.TOKEN);
-
-    // var myToken = "";
-    var myToken = $scope.TOKEN;
-
+    
     $http({
       method: 'GET',
       url : 'https://api.uber.com/v1/products',
       headers: {
-        'Authorization': 'Bearer ' + myToken
+        'Authorization': 'Bearer ' + $scope.TOKEN
       },
       params: {
         latitude: $scope.start_latitude,
